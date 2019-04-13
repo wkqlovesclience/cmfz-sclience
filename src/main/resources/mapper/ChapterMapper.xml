@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sclience.dao.ChapterMapper">
+    <resultMap id="aa" type="Chapter">
+        <id column="cid" property="id"/>
+        <result column="cname" property="name"/>
+        <result column="audio_path" property="audioPath"/>
+        <result column="audio_size" property="audioSize"/>
+        <result column="audio_time" property="audioTime"/>
+        <result column="upload_time" property="uploadTime"/>
+        <result column="play_num" property="playNum"/>
+        <result column="download_num" property="downloadNum"/>
+        <result column="album_id" property="album.id"/>
+        <association property="album" javaType="Album">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="score" property="score"/>
+            <result column="author" property="author"/>
+            <result column="beam" property="beam"/>
+            <result column="episodes" property="episodes"/>
+            <result column="des" property="des"/>
+            <result column="album_pic" property="albumPic"/>
+            <result column="cover" property="cover"/>
+            <result column="publish_date" property="publishDate"/>
+            <result column="status" property="status"/>
+            <result column="user_id" property="userId"/>
+        </association>
+    </resultMap>
+    <select id="findAlbumAndChapterByPage" resultMap="aa">
+        select  c.id cid,c.name cname,c.audio_path,c.audio_size,c.audio_time,c.upload_time,c.play_num,c.download_num,c.album_id,
+a.id,a.name,a.score,a.author,a.beam,a.episodes,a.des,a.album_pic,a.publish_date,a.status,a.user_id,a.cover
+from chapter c left join album a on a.id=c.album_id
+    </select>
+</mapper>
