@@ -45,17 +45,20 @@ public class ChapterController {
     }
     @RequestMapping("delChapter")
     public void delChapter(Chapter chapter){
+        System.out.println("delete ===================="+chapter);
         delChapter(chapter);
     }
     @RequestMapping("download")//下载
-    public void download(HttpServletResponse response, HttpServletRequest request,String openStyle,String path) throws IOException {
+    public void download(HttpServletResponse response, HttpServletRequest request,String openStyle,Chapter chapter) throws IOException {
+        Chapter one = chapterService.findOne(chapter);
         //根据相对路径获取绝对路径
-        String realPath = request.getSession().getServletContext().getRealPath("/");
+        String realPath = request.getSession().getServletContext().getRealPath("/upload");
+        System.out.println("realPath:"+realPath);
         //根据获取的文件名获取指定目录下的文件
-        File file = new File(realPath, path);
+        File file = new File(realPath, one.getName());
         String fileName = file.getName();
-        FileInputStream is = new FileInputStream(file);
-        response.setHeader("content-disposition", openStyle+";fileName"+ URLEncoder.encode(fileName, "UTF-8"));
+        FileInputStream is = new FileInputStream(file);//attachment 纯下载方式  inline在线打开
+        response.setHeader("content-disposition", openStyle+";fileName="+ URLEncoder.encode(fileName, "UTF-8"));
         //动态获取文件类型
         String type = request.getSession().getServletContext().getMimeType(fileName.substring(fileName.lastIndexOf(".")));
         //String extension = FilenameUtils.getExtension(name);
@@ -67,9 +70,10 @@ public class ChapterController {
         IOUtils.copy(is, os);
         IOUtils.closeQuietly(is);
         IOUtils.closeQuietly(os);
-
-
-
+    }
+    @RequestMapping("findOneById")
+    public Chapter findOneById(Chapter chapter){
+        return chapterService.findOne(chapter);
     }
     @RequestMapping("upload")//上传
     public Map<String,Object> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response,Chapter chapter) throws UnsupportedEncodingException {

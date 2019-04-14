@@ -1,13 +1,5 @@
 package sclience;
 
-import com.aliyuncs.CommonRequest;
-import com.aliyuncs.CommonResponse;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.IAcsClient;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
-import com.aliyuncs.http.MethodType;
-import com.aliyuncs.profile.DefaultProfile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -93,7 +85,7 @@ public class CmfzSclienceApplicationTests {
            System.out.println(chapter);
        }
    }
-   @Test
+  /* @Test
     public void testSentMessage(){
        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",  "LTAIpWkcx5mM1o4g",  "XPPY35hxaSUyxojqYxZGYcP79cWDhi");
        IAcsClient client = new DefaultAcsClient(profile);
@@ -116,6 +108,6 @@ public class CmfzSclienceApplicationTests {
        } catch (ClientException e) {
            e.printStackTrace();
        }
-   }
+   }*/
 
 }

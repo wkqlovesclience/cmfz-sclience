@@ -29,6 +29,6 @@
     <select id="findAlbumAndChapterByPage" resultMap="aa">
         select  c.id cid,c.name cname,c.audio_path,c.audio_size,c.audio_time,c.upload_time,c.play_num,c.download_num,c.album_id,
 a.id,a.name,a.score,a.author,a.beam,a.episodes,a.des,a.album_pic,a.publish_date,a.status,a.user_id,a.cover
-from chapter c left join album a on a.id=c.album_id
+from chapter c left join album a on a.id=c.album_id order by c.album_id
     </select>
 </mapper>

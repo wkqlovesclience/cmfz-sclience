@@ -50,7 +50,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
-    public Chapter download(Chapter chapter) {
+    public Chapter findOne(Chapter chapter) {
         return chapterMapper.selectByPrimaryKey(chapter.getId());
     }
 }

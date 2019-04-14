@@ -77,10 +77,12 @@
                     {name:"options",width:"230px",formatter:function (value,options,row) {
                             console.log(options);
                             console.log(row.id);
+                            /*alert(row.name);*/
                             var content="<a onclick=\"javascript:listen('"+row.id+"')\"><span class='glyphicon glyphicon-play'></span></a> &nbsp;&nbsp;&nbsp;&nbsp;"+
                                 "<a href=\"${app}/chapter/download?id="+row.id+"\"><span class='glyphicon glyphicon-save'></span></a> &nbsp;&nbsp;&nbsp;"
-                                +"<a onclick=\"javascript:listen('"+row.id+"')\"><span class='glyphicon glyphicon-remove'></span></a>";
+                                +"<a onclick=\"javascript:del('"+row.id+"')\"><span class='glyphicon glyphicon-remove'></span></a>";
                             return content;
+
                         }}
                 ],
                 grouping:true,
@@ -93,28 +95,48 @@
                 }
             }).jqGrid("navGrid","#pager",{edit:true,add:true,del:true,search:true,refresh:true});
         });
-
-        function edit(id){
-            //根据rowid获取当前行的方法
-            $("#poetryTab").jqGrid('editGridRow', id, {
-                height : 300,
-                reloadAfterSubmit : true
-            });
+        function listen(id){
+            $("#play").empty(),
+                $.post("${app}/chapter/findOneById",{id:id},function(result){
+                    $("#play").show({
+                        title:'歌曲播放',
+                        width:400,
+                        height:200,
+                        top:20,
+                        modal:true
+                    })
+                    /*$("#grouptable").jqGrid().trigger("reloadGrid");*///这里刷新页面会出现刚打开音乐，下拉框就会立马关闭的情况
+                    $("#play").append("<audio id='player' controls='controls' autoplay='autoplay'><source src='${app}/upload/"+result.name+"'/></audio>");
+                })
         }
 
+        function download(name) {//attachment  inline
+            $.ajax({
+                type:"POST",
+                url:"${app}/chapter/download",
+                data:{"name":name,"openStyle":"attachment"},
+                success : function (result) {
+                    /*刷新模态框*/
+                    $("#grouptable").jqGrid().trigger("reloadGrid");
+                }
+            });
+        }
 
         function del(id){
-            $("#poetryTab").jqGrid('delGridRow', id, {
-                reloadAfterSubmit : true
+            $.ajax({
+                type:"POST",
+                url:"${app}/chapter/delChapter",
+                data:{"id":id},
+                success : function (result) {
+                    /*刷新模态框*/
+                    $("#grouptable").jqGrid().trigger("reloadGrid");
+                }
             });
         }
-
-        /*function abc123(){
-            $('#qqq').modal('show');
-        }*/
     </script>
         <!--class="col-sm-10"开始-->
         <div class="col-sm-10">
+            <div id="play"></div>
             <div class="page-header">
                 <h2>章节管理</h2>
             </div>

@@ -102,6 +102,13 @@
             <version>1.0.2</version>
         </dependency>
 
+        <!--阿里大于短信验证-->
+        <!--<dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.0.3</version>
+        </dependency>-->
+
     </dependencies>
 
     <build>

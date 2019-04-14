@@ -24,5 +24,5 @@ public interface ChapterService {
     /**
      * 根据id获取Chapter
      */
-    Chapter download(Chapter chapter);
+    Chapter findOne(Chapter chapter);
 }
