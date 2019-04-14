@@ -186,7 +186,7 @@
                 <h4 class="modal-title">编辑专辑信息</h4>
             </div>
 
-            <!--模态框内容体-->
+            <!--模态框内容体开始-->
             <div class="modal-body">
 
                 <form id="albumForm" class="form-horizontal" enctype="multipart/form-data">

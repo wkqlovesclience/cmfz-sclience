@@ -17,36 +17,38 @@
                         document.getElementById("chapterForm").reset();
                         $("#chapterModal").modal("hide");
                         $("#grouptable").jqGrid().trigger("reloadGrid");
+                        //遍历
+                        var albums=result.albums;
+                        alert(albums);
+                        $.each(albums,function (i,album) {
+                            var option=$("<option/>").text(album.name).val(album.id);
+                            $("#albumName").append(option);
+                        })
                     }
                 });
+
             });
 
-            //章节上传
-            $("#add").click(function () {
-
-
-                $.ajax({
-                    type:"POST",
-                    url:"${app}/album/findAlbumById",
-                    data:{"id":id},
-                    success : function (result) {
-                        //重置表单
-                        console.log($("#albumForm"));
-                        document.getElementById("albumForm").reset();
-                        $("#id").val(result.id);
-                        $("#name").val(result.name);
-                        $("#score").val(result.score);
-                        $("#author").val(result.author);
-                        $("#reader").val(result.beam);
-                        $("#count").val(result.episodes);
-                        $("#des").val(result.des);
-                        $("#pic").val(result.file);
-                        $("#createdate").val(result.createDate);
-                        $("#status").val(result.status);
-                    }
-                });
-                $("#albumModal").modal("show");
+            $.ajax({
+                type:"POST",
+                url:"${app}/chapter/findAllAlbums",
+                contentType : false,
+                processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+                success:function(request){
+                    /*表单重置*/
+                   /* document.getElementById("chapterForm").reset();
+                    $("#chapterModal").modal("hide");
+                    $("#grouptable").jqGrid().trigger("reloadGrid");*/
+                    //遍历
+                   /* var albums=result.albums;
+                    alert(albums);*/
+                    $.each(request,function (i,album) {
+                        var option=$("<option/>").text(album.name).val(album.id);
+                        $("#albumName").append(option);
+                    })
+                }
             });
+
 
             /*初始化表格*/
             $("#grouptable").jqGrid({
@@ -107,9 +109,9 @@
             });
         }
 
-        function abc123(){
+        /*function abc123(){
             $('#qqq').modal('show');
-        }
+        }*/
     </script>
         <!--class="col-sm-10"开始-->
         <div class="col-sm-10">
@@ -119,7 +121,7 @@
             <!--标签开始-->
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">章节列表</a></li>
-                <li role="presentation"><a href="#" onclick="abc123();" id="add">章节添加</a></li>
+                <li role="presentation"><a href="#chapterModal" id="add" data-toggle="modal" data-target="#chapterModal">章节添加</a></li>
                 <li class="dropdown">
                     <!--触发器-->
                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -148,9 +150,10 @@
             <!--class="col-sm-10"结束-->
     <!--第一层栅格系统结束-->
 
+<%--模态框开始--%>
 
 <%--模态框开始--%>
-<div class="modal fade" id="qqq" tabindex="-1">
+<div class="modal fade" id="chapterModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <!--模态框标题-->
@@ -162,36 +165,49 @@
                 <h4 class="modal-title">编辑专辑信息</h4>
             </div>
 
-            <!--模态框内容体-->
+            <!--模态框内容体开始-->
             <div class="modal-body">
 
                 <form id="chapterForm" class="form-horizontal" enctype="multipart/form-data">
+
                     <input type="text" id="id" name="id" hidden/>
+
+                    <input type="text" id="audioSize" name="audioSize" hidden/>
+
+                    <input type="text" id="audioPath" name="audioPath" hidden/>
+                    <input type="text" id="audioTime" name="audioTime" hidden/>
+                    <input type="text" id="uploadTime" name="uploadTime" hidden/>
+                    <input type="text" id="playNum" name="playNum" hidden/>
+                    <input type="text" id="downloadNum" name="downloadNum" hidden/>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">专辑名称</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="album.name" id="albumName">
-                                <option value="1">激活</option>
-                                <option value="0">冻结</option>
+                            <select class="form-control" name="album.id" id="albumName">
+
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">章节上传</label>
+                        <label class="col-sm-2 control-label">请选择章节</label>
                         <div class="col-sm-10">
-                            <input type="file" name="file"  placeholder="请选择上传章节" class="form-control">
+                            <input type="file" name="file" id="file" class="form-control">
                         </div>
                     </div>
-                    <!--模态页脚-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="saveChapterBtn">保存</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    </div>
+
                 </form>
+
             </div>
+
+            <!--模态页脚-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveChapterBtn">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+
         </div>
     </div>
 </div>
 <%--模态框结束--%>
+

@@ -3,7 +3,6 @@ package sclience.controller;
 import it.sauronsoftware.jave.Encoder;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import sclience.entity.Album;
@@ -19,7 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +72,8 @@ public class ChapterController {
 
     }
     @RequestMapping("upload")//上传
-    public Map<String,Object> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public Map<String,Object> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response,Chapter chapter) throws UnsupportedEncodingException {
+        System.out.println("file=======================:"+file);
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         //创建Map，用于返回
@@ -96,28 +95,31 @@ public class ChapterController {
         //计算音频时长和大小
         long length = 0L;
         Encoder encoder = new Encoder();
+        /*Chapter chapter = new Chapter();*/
         try {
             //getInfo()的参数是一个File,不能用MultipartFile
             //getDuration()获取得到的文件时长是一个以毫秒为单位的long类型的数值
-            length = encoder.getInfo(file1).getDuration();
-            Chapter chapter = new Chapter();
+            length = encoder.getInfo(new File(realPath, file.getOriginalFilename())).getDuration();
             chapter.setAudioTime(length/1000/60+"分"+length/1000%60+"秒");
-            //得到音频内存大小，是一个以字节为单位的long类型的数值
-            //在此我用BigDecimal将其保留两位小数
-            BigDecimal size = new BigDecimal(file.getSize());
-            BigDecimal mod = new BigDecimal(1024);
-            //除两个1024，保留两位小数，进行四舍五入
-            size = size.divide(mod).divide(mod).setScale(2, BigDecimal.ROUND_HALF_UP);
-            chapter.setAudioSize(size);
-            System.out.println("getOriginalFilename():"+file.getOriginalFilename()+""+file.getName());
-            chapter.setName(file.getOriginalFilename());
-            chapter.setAudioPath("upload\\"+file.getOriginalFilename());
-            chapterService.uploadChapter(chapter);
+            System.out.println("-----------时长：------------"+length);
         }catch (Exception e) {
             //如果这里有异常也定义返回的map为失败
+            e.printStackTrace();
             map.put("status", false);
             map.put("message", "添加音乐失败");
         }
+
+        System.out.println("时长："+length/1000/60+"分"+length/1000%60+"秒");
+        //得到音频内存大小，是一个以字节为单位的long类型的数值
+        chapter.setAudioSize(file.getSize());
+        System.out.println("getOriginalFilename():"+file.getOriginalFilename()+""+file.getName());
+        chapter.setName(file.getOriginalFilename());
+        chapter.setAudioPath("upload\\"+file.getOriginalFilename());
+        chapter.setAlbumId(chapter.getAlbum().getId());
+        chapterService.uploadChapter(chapter);
+        System.out.println("chapter:-----------"+chapter);
+        List<Album> albums = albumService.findAllAlbums();
+        map.put("albums", albums);
         return map;
     }
     @RequestMapping("findAllAlbums")
@@ -125,7 +127,7 @@ public class ChapterController {
         return albumService.findAllAlbums();
     }
 
-    @RequestMapping("uploadMusic")
+    /*@RequestMapping("uploadMusic")
     @ResponseBody
     public Map<String,Object> uploadMusic(HttpServletRequest request,MultipartFile music){
         //创建一个map，用于返回
@@ -170,6 +172,6 @@ public class ChapterController {
 
         return map;
     }
-
+*/
 
 }

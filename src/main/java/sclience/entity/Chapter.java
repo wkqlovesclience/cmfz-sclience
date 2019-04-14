@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Id;
-import java.math.BigDecimal;
 import java.util.Date;
 @NoArgsConstructor
 @Data
@@ -18,7 +17,7 @@ public class Chapter {
 
     private String audioPath;//章节路径
 
-    private BigDecimal audioSize;//章节大小
+    private Long audioSize;//章节大小
 
     private String audioTime;//章节时长
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -29,7 +28,7 @@ public class Chapter {
 
     private Integer downloadNum;//下载次数
 
-    //private String albumId;
+    private String albumId;
 
     private Album album;//关系属性
 
