@@ -33,6 +33,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public void deleteChapter(Chapter chapter) {
+        System.out.println("ChapterService-------deleteChapter------"+chapter);
         chapterMapper.deleteByPrimaryKey(chapter.getId());
     }
 
@@ -50,6 +51,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Chapter findOne(Chapter chapter) {
         return chapterMapper.selectByPrimaryKey(chapter.getId());
     }

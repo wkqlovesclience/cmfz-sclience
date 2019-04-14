@@ -13,6 +13,7 @@ import sclience.entity.Chapter;
 import sclience.entity.Turn;
 import sclience.service.AdminService;
 import sclience.service.AlbumService;
+import sclience.service.ChapterService;
 import sclience.service.TurnService;
 
 import javax.annotation.Resource;
@@ -22,6 +23,8 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CmfzSclienceApplicationTests {
+    @Resource
+    private ChapterService chapterService;
     @Resource
     private AlbumMapper albumMapper;
     @Resource
@@ -85,6 +88,13 @@ public class CmfzSclienceApplicationTests {
            System.out.println(chapter);
        }
    }
+   @Test
+    public void testDeleteChapter(){
+       Chapter chapter = new Chapter();
+       chapter.setId("73d932db-210d-49df-b282-dfedcfdf4a47");
+       chapterService.deleteChapter(chapter);
+   }
+
   /* @Test
     public void testSentMessage(){
        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",  "LTAIpWkcx5mM1o4g",  "XPPY35hxaSUyxojqYxZGYcP79cWDhi");

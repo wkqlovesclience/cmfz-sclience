@@ -46,7 +46,7 @@ public class ChapterController {
     @RequestMapping("delChapter")
     public void delChapter(Chapter chapter){
         System.out.println("delete ===================="+chapter);
-        delChapter(chapter);
+        chapterService.deleteChapter(chapter);
     }
     @RequestMapping("download")//下载
     public void download(HttpServletResponse response, HttpServletRequest request,String openStyle,Chapter chapter) throws IOException {

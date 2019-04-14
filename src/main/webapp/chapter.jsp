@@ -80,7 +80,7 @@
                             /*alert(row.name);*/
                             var content="<a onclick=\"javascript:listen('"+row.id+"')\"><span class='glyphicon glyphicon-play'></span></a> &nbsp;&nbsp;&nbsp;&nbsp;"+
                                 "<a href=\"${app}/chapter/download?id="+row.id+"\"><span class='glyphicon glyphicon-save'></span></a> &nbsp;&nbsp;&nbsp;"
-                                +"<a onclick=\"javascript:del('"+row.id+"')\"><span class='glyphicon glyphicon-remove'></span></a>";
+                                +"<a onclick=\"javascript:del('"+row.id+"')\"><span class='glyphicon glyphicon-remove'></span></a>  ";
                             return content;
 
                         }}
