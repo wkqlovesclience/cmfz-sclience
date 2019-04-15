@@ -105,7 +105,7 @@
                         top:20,
                         modal:true
                     })
-                    /*$("#grouptable").jqGrid().trigger("reloadGrid");*///这里刷新页面会出现刚打开音乐，下拉框就会立马关闭的情况
+                    $("#grouptable").jqGrid().trigger("reloadGrid");//这里刷新页面会出现刚打开音乐，下拉框就会立马关闭的情况
                     $("#play").append("<audio id='player' controls='controls' autoplay='autoplay'><source src='${app}/upload/"+result.name+"'/></audio>");
                 })
         }

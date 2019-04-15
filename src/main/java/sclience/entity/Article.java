@@ -1,75 +1,33 @@
 package sclience.entity;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Id;
+import java.util.Date;
+@NoArgsConstructor
+@Data
 public class Article {
+    @Id
     private String id;
 
-    private String name;
+    private String name;//文章名称
 
-    private String content;
+    private String content;//文章内容
 
-    private String articlePic;
+    private String articlePic;//文章图片
 
-    private Date publishDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date publishDate;//发布日期
 
-    private Integer readNum;
+    private Integer readNum;//阅读次数
 
-    private String guruId;
+    private String guruId;//上师id
 
-    public String getId() {
-        return id;
-    }
+    private Guru guru;//关系属性
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    public String getArticlePic() {
-        return articlePic;
-    }
-
-    public void setArticlePic(String articlePic) {
-        this.articlePic = articlePic == null ? null : articlePic.trim();
-    }
-
-    public Date getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public Integer getReadNum() {
-        return readNum;
-    }
-
-    public void setReadNum(Integer readNum) {
-        this.readNum = readNum;
-    }
-
-    public String getGuruId() {
-        return guruId;
-    }
-
-    public void setGuruId(String guruId) {
-        this.guruId = guruId == null ? null : guruId.trim();
-    }
 }

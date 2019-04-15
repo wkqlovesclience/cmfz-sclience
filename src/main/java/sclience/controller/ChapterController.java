@@ -51,6 +51,10 @@ public class ChapterController {
     @RequestMapping("download")//下载
     public void download(HttpServletResponse response, HttpServletRequest request,String openStyle,Chapter chapter) throws IOException {
         Chapter one = chapterService.findOne(chapter);
+        //更改下载次数
+        one.setDownloadNum(one.getDownloadNum()+1);
+        chapterService.updateChapter(one);
+        System.out.println("----------download---------"+one);
         //根据相对路径获取绝对路径
         String realPath = request.getSession().getServletContext().getRealPath("/upload");
         System.out.println("realPath:"+realPath);
@@ -73,7 +77,12 @@ public class ChapterController {
     }
     @RequestMapping("findOneById")
     public Chapter findOneById(Chapter chapter){
-        return chapterService.findOne(chapter);
+        Chapter one = chapterService.findOne(chapter);
+        //修改播放次数
+        one.setPlayNum(one.getPlayNum()+1);
+        chapterService.updateChapter(one);
+        return one;
+
     }
     @RequestMapping("upload")//上传
     public Map<String,Object> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response,Chapter chapter) throws UnsupportedEncodingException {

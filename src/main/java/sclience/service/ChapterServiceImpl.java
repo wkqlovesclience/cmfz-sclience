@@ -55,4 +55,9 @@ public class ChapterServiceImpl implements ChapterService {
     public Chapter findOne(Chapter chapter) {
         return chapterMapper.selectByPrimaryKey(chapter.getId());
     }
+
+    @Override
+    public void updateChapter(Chapter chapter) {
+        chapterMapper.updateByPrimaryKeySelective(chapter);
+    }
 }

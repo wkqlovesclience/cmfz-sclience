@@ -6,11 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sclience.dao.AdminMapper;
 import sclience.dao.AlbumMapper;
+import sclience.dao.ArticleMapper;
 import sclience.dao.ChapterMapper;
-import sclience.entity.Admin;
-import sclience.entity.Album;
-import sclience.entity.Chapter;
-import sclience.entity.Turn;
+import sclience.entity.*;
 import sclience.service.AdminService;
 import sclience.service.AlbumService;
 import sclience.service.ChapterService;
@@ -23,6 +21,8 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CmfzSclienceApplicationTests {
+    @Resource
+    private ArticleMapper articleMapper;
     @Resource
     private ChapterService chapterService;
     @Resource
@@ -93,6 +93,13 @@ public class CmfzSclienceApplicationTests {
        Chapter chapter = new Chapter();
        chapter.setId("73d932db-210d-49df-b282-dfedcfdf4a47");
        chapterService.deleteChapter(chapter);
+   }
+   @Test
+    public void testFindAllArticles(){
+       List<Article> articles = articleMapper.findAllArticles();
+       for (Article article : articles) {
+           System.out.println(article);
+       }
    }
 
   /* @Test

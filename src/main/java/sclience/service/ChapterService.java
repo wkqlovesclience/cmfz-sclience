@@ -25,4 +25,8 @@ public interface ChapterService {
      * 根据id获取Chapter
      */
     Chapter findOne(Chapter chapter);
+    /**
+     * 修改
+     */
+    void updateChapter(Chapter chapter);
 }

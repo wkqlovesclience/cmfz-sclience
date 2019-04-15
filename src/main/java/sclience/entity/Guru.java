@@ -11,12 +11,12 @@ public class Guru {
     @Id
     private String id;
 
-    private String name;
+    private String name;//名称
 
-    private String status;
+    private String status;//状态
 
-    private String headPic;
+    private String headPic;//头像
 
-    private String describe;
+    private String describe;//上师简介
 
 }
