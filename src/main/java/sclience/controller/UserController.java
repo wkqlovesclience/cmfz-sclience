@@ -4,12 +4,14 @@ import org.apache.poi.hssf.usermodel.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sclience.entity.User;
+import sclience.entity.UserRE;
 import sclience.entity.UserVO;
 import sclience.service.UserService;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,4 +98,39 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping("findRegistCount")
+    public Map<String,List<UserRE>> findRegistCount(){
+        List<UserRE> res = new ArrayList<>();
+        //一周内
+        Integer seven = userService.findByRegistTime(7);
+        UserRE userRE = new UserRE();
+        userRE.setName("一周内");
+        userRE.setValue(seven);
+        res.add(userRE);
+
+        //一月内
+        Integer oneMonth = userService.findByRegistTime(30);
+        UserRE userRE1 = new UserRE();
+        userRE1.setName("一月内");
+        userRE1.setValue(oneMonth);
+        res.add(userRE1);
+
+        //三月内
+        Integer threeMonth = userService.findByRegistTime(90);
+        UserRE userRE2 = new UserRE();
+        userRE2.setName("三月内");
+        userRE2.setValue(threeMonth);
+        res.add(userRE2);
+
+        //半年内
+        Integer sixMonth = userService.findByRegistTime(180);
+        UserRE userRE3 = new UserRE();
+        userRE3.setName("半年内");
+        userRE3.setValue(sixMonth);
+        res.add(userRE3);
+
+        HashMap<String, List<UserRE>> map = new HashMap<>();
+        map.put("data", res);
+        return map;
+    }
 }

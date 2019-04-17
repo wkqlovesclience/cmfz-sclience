@@ -34,4 +34,8 @@ public interface UserService {
      * 根据省份查询 省份信息 及 每个省份的人数
      */
     List<UserVO> findCountGroupByProvince();
+    /**
+     * 统计某一时间段内用户的注册情况
+     */
+    Integer findByRegistTime(Integer days);
 }

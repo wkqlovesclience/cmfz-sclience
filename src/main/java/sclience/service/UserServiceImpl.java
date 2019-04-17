@@ -72,4 +72,10 @@ public class UserServiceImpl implements UserService{
     public List<UserVO> findCountGroupByProvince() {
         return userMapper.findCountGroupByProvince();
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer findByRegistTime(Integer days) {
+        return userMapper.findByRegistTime(days);
+    }
 }

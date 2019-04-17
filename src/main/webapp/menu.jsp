@@ -116,6 +116,7 @@
                         <ul class="list-group">
                             <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/user.jsp')">用户列表</a></li>
                             <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/map.jsp')">用户分布</a></li>
+                            <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/registTime.jsp')">用户注册统计</a></li>
                         </ul>
                     </div>
                 </div>

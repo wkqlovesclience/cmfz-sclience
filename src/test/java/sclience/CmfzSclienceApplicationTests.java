@@ -128,7 +128,7 @@ public class CmfzSclienceApplicationTests {
        request.putQueryParameter("RegionId", "cn-hangzhou");
        request.putQueryParameter("TemplateCode", "SMS_162522223");
        request.putQueryParameter("SignName", "小蛋黄");
-       request.putQueryParameter("PhoneNumbers", "18574258095");
+       request.putQueryParameter("PhoneNumbers", "18595585841");
        request.putQueryParameter("TemplateParam", "{\"code\":\"8989\"}");
        try {
            CommonResponse response = client.getCommonResponse(request);

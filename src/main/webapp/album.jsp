@@ -246,7 +246,9 @@
                                 </script>
                                 <!-- 实例化编辑器 -->
                                 <script type="text/javascript">
+                                    UE.delEditor('des');
                                     var ue = UE.getEditor('des');
+
                                 </script>
                         </div>
                     </div>

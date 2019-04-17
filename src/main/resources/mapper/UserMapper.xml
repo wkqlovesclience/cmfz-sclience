@@ -6,4 +6,9 @@
         from user
         group by province
     </select>
+    <select id="findByRegistTime" resultType="integer" parameterType="integer">
+        select count(id)
+        from user
+        where TO_DAYS(NOW())-TO_DAYS(regist_time) &lt; #{days}
+    </select>
 </mapper>

@@ -136,13 +136,13 @@
 
     </dependencies>
 
-    <!--<repositories>
+    <repositories>
         <repository>
             <id>goeasy</id>
             <name>goeasy</name>
             <url>http://maven.goeasy.io/content/repositories/releases/</url>
         </repository>
-    </repositories>-->
+    </repositories>
 
     <build>
         <plugins>
