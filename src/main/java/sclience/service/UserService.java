@@ -1,6 +1,7 @@
 package sclience.service;
 
 import sclience.entity.User;
+import sclience.entity.UserVO;
 
 import java.util.List;
 
@@ -14,6 +15,10 @@ public interface UserService {
      */
     Integer findTotals();
     /**
+     * 查询所有
+     */
+    List<User> findAllUsers();
+    /**
      * 添加
      */
     void addUser(User user);
@@ -25,4 +30,8 @@ public interface UserService {
      * 删除
      */
     void deleteUser(User user);
+    /**
+     * 根据省份查询 省份信息 及 每个省份的人数
+     */
+    List<UserVO> findCountGroupByProvince();
 }

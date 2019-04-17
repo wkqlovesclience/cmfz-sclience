@@ -26,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("chapter")
 public class ChapterController {
+
     @Resource
     private AlbumService albumService;
     @Resource
@@ -51,6 +52,7 @@ public class ChapterController {
     @RequestMapping("download")//下载
     public void download(HttpServletResponse response, HttpServletRequest request,String openStyle,Chapter chapter) throws IOException {
         Chapter one = chapterService.findOne(chapter);
+
         //更改下载次数
         one.setDownloadNum(one.getDownloadNum()+1);
         chapterService.updateChapter(one);
@@ -87,6 +89,8 @@ public class ChapterController {
     @RequestMapping("upload")//上传
     public Map<String,Object> upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response,Chapter chapter) throws UnsupportedEncodingException {
         System.out.println("file=======================:"+file);
+        System.out.println("---------chapter--------"+chapter);
+
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         //创建Map，用于返回
@@ -121,7 +125,6 @@ public class ChapterController {
             map.put("status", false);
             map.put("message", "添加音乐失败");
         }
-
         System.out.println("时长："+length/1000/60+"分"+length/1000%60+"秒");
         //得到音频内存大小，是一个以字节为单位的long类型的数值
         chapter.setAudioSize(file.getSize());
@@ -130,7 +133,13 @@ public class ChapterController {
         chapter.setAudioPath("upload\\"+file.getOriginalFilename());
         chapter.setAlbumId(chapter.getAlbum().getId());
         chapterService.uploadChapter(chapter);
-        System.out.println("chapter:-----------"+chapter);
+        Album album = chapter.getAlbum();
+        Album oneAlbum = albumService.findOneAlbum(album);
+        oneAlbum.setEpisodes(oneAlbum.getEpisodes()+1);
+        albumService.updateAlbum(oneAlbum);
+        System.out.println("---------album.getEpisodes()---------"+oneAlbum.getEpisodes());
+        System.out.println("chapter:-----------"+chapter.getAlbum());
+
         List<Album> albums = albumService.findAllAlbums();
         map.put("albums", albums);
         return map;

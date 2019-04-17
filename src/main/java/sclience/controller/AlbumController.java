@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import sclience.entity.Album;
 import sclience.service.AlbumService;
+import sclience.service.ChapterService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("album")
 public class AlbumController {
+    @Resource
+    private ChapterService chapterService;
     @Resource
     private AlbumService albumService;
     @RequestMapping("findAllAlbumsByPage")

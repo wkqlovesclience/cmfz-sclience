@@ -7,17 +7,16 @@
             return "<img src='" +cellvalue  + "' height='50' width='50' />";
         }
         $(function () {
-           /* $.ajaxFileUpload({
-                    url: 'http://localhost:8989/upload',
-                    secureuri: false,
-                    fileElementId: 'url',
-                    dataType: 'json',
-                    data: { id: id},
-                    success: function (data) {
+            $('#myButton').on('click', function () {
 
-
+                $.ajax({
+                    type:"POST",
+                    url:"${app}/user/export",
+                    success : function () {
+                        $("#grouptable").jqGrid().trigger("reloadGrid");
                     }
-                })*/
+                });
+            })
 
             /*初始化表格*/
             $("#grouptable").jqGrid({
@@ -44,6 +43,7 @@
                     {name:"city",align:"center",editable:true},
                     {name:"autograph",align:"center",editable:true},
                     {name : "headPic",
+                        align:"center",
                         index : "url",
                         formatter : showPicture,
                         editable : true,
@@ -66,64 +66,7 @@
                         }}
                 ]
             }).jqGrid("navGrid","#pager",{edit:true,add:true,del:true,search:true,refresh:true});
-            //方法调用
-            $("#btn").click(function () {
-                $("#poetryTab").jqGrid("delRowData",2);
-            });
-
-            //绑定save单击事件
-            $("#save").click(function(){
-                saveInfo();
-            });
-
-            //编辑一行
-            $("#edit").click(function () {
-                var gr = $("#poetryTab").jqGrid('getGridParam', 'selrow');
-                if (gr != null)
-                    $("#poetryTab").jqGrid('editGridRow', gr, {
-                        height : 300,
-                        reloadAfterSubmit : true
-                    });
-                else
-                    alert("请选择一行!!!!");
-            });
-
-            //删除一行
-            $("#del").click(function(){
-                var gr = $("#poetryTab").jqGrid('getGridParam', 'selrow');
-                if (gr != null)
-                    $("#poetryTab").jqGrid('delGridRow', gr, {
-                        reloadAfterSubmit : true
-                    });
-                else
-                    alert("请选择一行,去删除!!!");
-            });
-            //追加toolbar
-            $("#t_poetryTab").append("<button class=\"btn btn-primary\" onclick='javascript:saveInfo();'>添加</button>");
         });
-        //封装添加方法
-        function saveInfo(){
-            $("#poetryTab").jqGrid('editGridRow', "new", {
-                height : 400,
-                reloadAfterSubmit : true
-            });
-        }
-
-        function edit(id){
-            //根据rowid获取当前行的方法
-            $("#poetryTab").jqGrid('editGridRow', id, {
-                height : 300,
-                reloadAfterSubmit : true
-            });
-
-        }
-
-        function del(id){
-            $("#poetryTab").jqGrid('delGridRow', id, {
-                reloadAfterSubmit : true
-            });
-        }
-
 
 
     </script>
@@ -157,7 +100,9 @@
                 <div class="tab-pane active" id="list">
                     <table id="grouptable"></table>
                     <div id="pager" style="width: auto;height: 50px"></div>
-
+                    <button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+                        导出用户信息
+                    </button>
                 </div>
                 <div class="tab-pane" id="saveInfo">B</div>
                 <div class="tab-pane" id="SpringMvc">SpringMvc</div>

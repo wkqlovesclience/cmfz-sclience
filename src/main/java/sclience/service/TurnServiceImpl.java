@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import sclience.conf.TestInterface;
 import sclience.dao.TurnMapper;
 import sclience.entity.Turn;
 
@@ -39,6 +40,7 @@ public class TurnServiceImpl implements TurnService {
     }
 
     @Override
+    @TestInterface("添加轮播图")
     public void addTurn(Turn turn) {
         //生成id
         turn.setId(UUID.randomUUID().toString());
@@ -46,13 +48,14 @@ public class TurnServiceImpl implements TurnService {
         turn.setUploadTime(new Date());
         turnMapper.insert(turn);
     }
-
+    @TestInterface("更新轮播图")
     @Override
     public void updateTurn(Turn turn) {
         turnMapper.updateByPrimaryKeySelective(turn);
     }
 
     @Override
+    @TestInterface("删除轮播图")
     public void deleteTurn(Turn turn) {
         turnMapper.delete(turn);
     }

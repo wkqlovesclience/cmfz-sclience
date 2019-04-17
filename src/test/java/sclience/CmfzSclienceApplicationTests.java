@@ -22,6 +22,8 @@ import java.util.UUID;
 @SpringBootTest
 public class CmfzSclienceApplicationTests {
     @Resource
+    private sclience.service.Test test;
+    @Resource
     private ArticleMapper articleMapper;
     @Resource
     private ChapterService chapterService;
@@ -101,7 +103,18 @@ public class CmfzSclienceApplicationTests {
            System.out.println(article);
        }
    }
+   @Test
+    public void findAlbum(){
+       Album album = new Album();
+       album.setId("675c96ed-8157-464e-86e0-72d2365130a4");
+       Album oneAlbum = albumService.findOneAlbum(album);
+       System.out.println(oneAlbum);
+   }
 
+   @Test
+    public void testPrintMethod(){
+       test.test();
+   }
   /* @Test
     public void testSentMessage(){
        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",  "LTAIpWkcx5mM1o4g",  "XPPY35hxaSUyxojqYxZGYcP79cWDhi");

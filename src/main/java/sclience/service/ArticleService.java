@@ -16,7 +16,7 @@ public interface ArticleService {
     /**
      * 添加文章
      */
-    void addAryicle(Article article);
+    void addArticle(Article article);
     /**
      * 更新文章
      */

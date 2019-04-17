@@ -14,6 +14,10 @@ public interface ChapterService {
      */
     Integer findTotals();
     /**
+     * 根据专辑id获取每个专辑下的章节数
+     */
+    Integer findCount(String albumId);
+    /**
      * 删除
      */
     void deleteChapter(Chapter chapter);
@@ -29,4 +33,5 @@ public interface ChapterService {
      * 修改
      */
     void updateChapter(Chapter chapter);
+
 }

@@ -1,6 +1,7 @@
 <%@page contentType="text/html; UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="app" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -12,6 +13,13 @@
     <script src="${app}/statics/boot/js/bootstrap.min.js"></script>
     <script src="${app}/statics/jqgrid/js/trirand/jquery.jqGrid.min(1).js"></script>
     <script src="${app}/statics/jqgrid/js/trirand/i18n/grid.locale-cn.js"></script>
+    <!-- 配置文件 富文本编辑器 -->
+    <script type="text/javascript" src="${app}/utf8-jsp/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 富文本编辑器 -->
+    <script type="text/javascript" src="${app}/utf8-jsp/ueditor.all.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="${app}/echarts/js/echarts.min.js"></script>
+    <script src="${app}/echarts/js/china.js"></script>
     <script>
 
     </script>
@@ -107,7 +115,7 @@
                     <div class="panel-collapse collapse" id="cc">
                         <ul class="list-group">
                             <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/user.jsp')">用户列表</a></li>
-                            <li class="list-group-item"><a href="javascript:$('#xxx').load('./users01.html')">用户添加</a></li>
+                            <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/map.jsp')">用户分布</a></li>
                         </ul>
                     </div>
                 </div>
@@ -124,8 +132,7 @@
 
                     <div class="panel-collapse collapse" id="dd">
                         <ul class="list-group">
-                            <li class="list-group-item">类别列表</li>
-                            <li class="list-group-item">添加类别</li>
+                            <li class="list-group-item"><a href="javascript:$('#xxx').load('${app}/log.jsp')">日志列表</a></li>
                         </ul>
                     </div>
                 </div>

@@ -31,4 +31,9 @@
 a.id,a.name,a.score,a.author,a.beam,a.episodes,a.des,a.album_pic,a.publish_date,a.status,a.user_id,a.cover
 from chapter c left join album a on a.id=c.album_id order by c.album_id
     </select>
+
+    <!--查询每个专辑下的章节数-->
+    <select id="findCount" parameterType="string" resultType="integer">
+        select count(id) from chapter where album_id = #{albumId}
+    </select>
 </mapper>

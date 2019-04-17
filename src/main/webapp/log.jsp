@@ -12,7 +12,7 @@
             /*初始化表格*/
             $("#grouptable").jqGrid({
                 styleUI : 'Bootstrap',
-                url:"album/findAllAlbumsByPage",
+                url:"log/findAllLogs",
                 datatype:"JSON",
                 autowidth:true,//自适应宽度
                 rowNum:2,//设置固定展示条数
@@ -23,132 +23,17 @@
                 //caption:"小组管理",//设置表格名称
                 pager:"#pager",//设置页码
                 viewrecords:true,
-                colNames:["专辑名称","评分","播音","专辑作者","专辑描述","上传时间","章节数量","albumPic","cover","专辑状态","操作"],
+                colNames:["Id","操作","操作时间","操作状态","操作人员"],
                 colModel:[
-                    {name:"name",align:"center"},
-                    {name:"score",align:"center",editable:true},
-                    {name:"beam",align:"center",editable:true},
-                    {name:"author",align:"center",editable:true},
-                    {name:"des",align:"center",editable:true},
-                    {name:"publishDate",align:"center",editable:true},
-                    {name:"episodes",align:"center",editable:true},
-                    {name:"albumPic",
-                        align:"center",
-                        index : "url",
-                        formatter : showPicture,
-                        editable : true,
-                        edittype : 'file',
-                        editoptions:{enctype:"multipart/form-data"},
-                        width : 40},
-                    {name:"cover",align:"center",editable:true},
-                    {name:"status",editable:true,edittype:"select",
-                        editoptions:{value:"1:正常;2:冻结"},
-                        formatter:function(value,options,row){
-                            if(row.status == 0){
-                                return "正常";
-                            }
-                            return "冻结";
-                        }
-                    },
-                    {name:"options",width:"230px",formatter:function (value,options,row) {
-                            console.log(options);
-                            console.log(row.id);
-                            var content="<a onclick=\"javascript:see('"+row.id+"')\"> <span class='glyphicon glyphicon-search'></span></a>  " +
-                                "<a onclick=\"javascript:edit('"+row.id+"')\"><span class='glyphicon glyphicon-pencil'></span></a>  " +
-                                "<a onclick=\"javascript:del('"+row.id+"')\"><span class='glyphicon glyphicon-remove'></span></a>  ";
-                            return content;
-                        }}
+                    {name:"id",align:"center"},
+                    {name:"operation",align:"center",editable:true},
+                    {name:"createDate",align:"center",editable:true},
+                    {name:"sign",align:"center",editable:true},
+                    {name:"adminName",align:"center",editable:true}
                 ]
             }).jqGrid("navGrid","#pager",{edit:true,add:true,del:true,search:true,refresh:true});
         });
-        $("#savebtn").click(function () {
 
-            var formData = new FormData($("#albumForm")[0]);
-            $.ajax({
-                type:"POST",
-                url:"${app}/album/addOrUpdate",
-                data:formData,
-                contentType : false,
-                processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
-                success : function () {
-                    //移除表单中不可编辑属性
-                    $(':input', '#albumForm').removeAttr('disabled');
-                    /*表单重置*/
-                    document.getElementById("albumForm").reset();
-                    $("#albumModal").modal("hide");
-                    $("#grouptable").jqGrid().trigger("reloadGrid");
-                }
-
-            })
-        });
-        /*修改*/
-        function edit(id){
-
-            $.ajax({
-                type:"POST",
-                url:"${app}/album/findAlbumById",
-                data:{"id":id},
-                success : function (result) {
-                    //移除表单中不可编辑属性
-                    $(':input', '#albumForm').removeAttr('disabled');
-                    //重置表单
-                    console.log($("#albumForm"));
-                    document.getElementById("albumForm").reset();
-                    $("#id").val(result.id);
-                    $("#name").val(result.name);
-                    $("#score").val(result.score);
-                    $("#author").val(result.author);
-                    $("#reader").val(result.beam);
-                    $("#count").val(result.episodes);
-                    $("#des").val(result.des);
-                    $("#pic").val(result.file);
-                    $("#createdate").val(result.createDate);
-                    $("#status").val(result.status);
-                }
-            });
-            $("#albumModal").modal("show");
-        }
-        /*删除*/
-        function del(id){
-            $.ajax({
-                type:"POST",
-                url:"${app}/album/deleteAlbum",
-                data:{"id":id},
-                success : function (result) {
-                    /*刷新模态框*/
-                    $("#grouptable").jqGrid().trigger("reloadGrid");
-                }
-            });
-        }
-
-
-        function see(id) {
-
-            $.ajax({
-                type:"POST",
-                url: "${app}/album/findAlbumById",
-                dataType:"JSON",
-                data:{"id":id},
-                success:function (result) {
-                    //重置表单
-                    console.log($("#albumForm"));
-                    document.getElementById("albumForm").reset();
-                    $("#id").val(result.id).attr("disabled","disabled");
-                    $("#name").val(result.name).attr("disabled","disabled");
-                    $("#score").val(result.score).attr("disabled","disabled");
-                    $("#author").val(result.author).attr("disabled","disabled");
-                    $("#reader").val(result.beam).attr("disabled","disabled");
-                    $("#count").val(result.episodes).attr("disabled","disabled");
-                    $("#des").val(result.des).attr("disabled","disabled");
-                    $("#pic").val(result.file).attr("disabled","disabled");
-                    $("#createdate").val(result.createDate).attr("disabled","disabled");
-                    $("#status").val(result.status).attr("disabled","disabled");
-                    $("#img").attr("src","${app}/upload/"+result.cover)
-
-                }
-            });
-            $("#albumModal").modal("show");
-        }
 
     </script>
 
@@ -160,7 +45,6 @@
             <!--标签开始-->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">专辑列表</a></li>
-                <li role="presentation"><a href="#albumModal" id="add" data-toggle="modal" data-target="#albumModal">专辑添加</a></li>
             </ul>
             <!--标签内容组-->
             <div class="tab-content">
@@ -179,7 +63,7 @@
 
 
 <%--模态框开始--%>
-<div class="modal fade" id="albumModal" tabindex="-1">
+<div class="modal fade" id="logModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <!--模态框标题-->
@@ -194,7 +78,7 @@
             <!--模态框内容体开始-->
             <div class="modal-body">
 
-                <form id="albumForm" class="form-horizontal" enctype="multipart/form-data">
+                <form id="logForm" class="form-horizontal" enctype="multipart/form-data">
 
                     <input type="text" id="id" name="id" hidden/>
 

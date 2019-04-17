@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import sclience.conf.TestInterface;
 import sclience.dao.ChapterMapper;
 import sclience.entity.Chapter;
 
@@ -32,12 +33,14 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @TestInterface("删除章节")
     public void deleteChapter(Chapter chapter) {
         System.out.println("ChapterService-------deleteChapter------"+chapter);
         chapterMapper.deleteByPrimaryKey(chapter.getId());
     }
 
     @Override
+    @TestInterface("上传章节")
     public void uploadChapter(Chapter chapter) {
         //生成id
         chapter.setId(UUID.randomUUID().toString());
@@ -47,6 +50,9 @@ public class ChapterServiceImpl implements ChapterService {
         chapter.setPlayNum(0);
         //设置下载次数
         chapter.setDownloadNum(0);
+        //修改专辑的章节数
+        /*Album album = chapter.getAlbum();
+        album.setEpisodes(chapterMapper.findCount(album.getId()));*/
         chapterMapper.insertSelective(chapter);
     }
 
@@ -57,7 +63,14 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @TestInterface("更新章节")
     public void updateChapter(Chapter chapter) {
         chapterMapper.updateByPrimaryKeySelective(chapter);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer findCount(String albumId) {
+        return chapterMapper.findCount(albumId);
     }
 }
